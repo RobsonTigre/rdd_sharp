@@ -21,7 +21,7 @@ rm(list = ls())
 
 # EN-US: Set seed for reproducibility
 # PT-BR: Defina a semente para reprodutibilidade
-set.seed(123)
+set.seed(1213456)
 
 # EN-US: Define the total number of observations in this analysis
 # PT-BR: Defina o número total de observações nesta análise
@@ -69,7 +69,10 @@ ggplot(data, aes(x = x, y = y)) +
 # PT-BR: O teste de "não manipulação": verificação da densidade da running variable em torno do cutoff
 density_test <- rddensity(data$x, c = 50)
 summary(density_test)
-rdplotdensity(density_test, data$x, plotRange = c(40, 60)) # no significant discontinuity
+rdplotdensity(density_test, data$x, 
+              title = "Density plotting for manipulation testing",
+              xlabel = "Loyalty score in the recent past",
+              ylabel = "Density",) # no significant discontinuity
 
 # EN-US: Testing the continuity of covariates (covariates should be balanced - i.e., shouldn't jump - across the threshold)
 # PT-BR: Testando a continuidade das covariáveis (as covariáveis devem ser balanceadas - não devem ter saltos - ao redor do threshold)
@@ -93,7 +96,7 @@ rdd_result_cov <- rdrobust(data$y, data$x, c = 50, covs = data[, c("age", "tenur
 summary(rdd_result_cov)
 
 
-# EN-US: Finally, a formal visualizing RDD with rdplot, with proper binning out Y to avoind pollution, and confidence intervals
+# EN-US: Finally, a Formal visualization RDD with rdplot, with proper binning out Y to avoid pollution, and confidence intervals
 # PT-BR: Finalmente, uma visualização formal do RDD com rdplot, com binning adequado de Y para evitar poluição, e intervalos de confiança
 subset_data <- data %>% filter(x > 40 & x < 60) # Subset data where x is between 40 and 60
 rdplot(y = subset_data$y, x = subset_data$x, c = 50, ci = 95, # RDD Plot with the subset data and confidence intervals
